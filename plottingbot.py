@@ -1,33 +1,33 @@
-import datetime as dt
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib import style
-import requests, json, pandas, xlsxwriter,time
-from datetime import datetime
-#value = "AAVE_BTC"
-value = str(input("Please enter what cryptocurrency you would like to monitor today: "))
+import pandas
+from bot import createxl, getdata
+currency = "1INCH_USDT"
+#currency = str(input("Please enter what cryptocurrency you would like to monitor today: "))
+
 style.use("fivethirtyeight")
 fig = plt.figure()
 ax1 = fig.add_subplot(2,2,1)
 ax2 = fig.add_subplot(2,2,2)
 ax3 = fig.add_subplot(2,2,3)
 
-
+createxl()
 
 def animate(i):
     lsp = []
     ysp = []
     xsp = []
-    dfp = pandas.read_excel(r"C:\Users\User\Desktop\prices.xlsx", engine='openpyxl')
-    print("1")
+    dfp,dfv,dfm = getdata()
+
     dfp = dfp.T
     for col in dfp.columns:
         col_lsp = dfp[col].tolist()
         lsp.append(col_lsp)
-    print(lsp)
+
     for i in lsp:
         for name in i:
-            if name == value:
+            if name == currency:
                 ysp = i
     for i in dfp.index:
         xsp.append(i)
@@ -41,15 +41,15 @@ def animate(i):
     lsv = []
     ysv = []
     xsv = []
-    dfv = pandas.read_excel(r"C:\Users\User\Desktop\volumes.xlsx",engine='openpyxl')
+
     dfv = dfv.T
     for col in dfv.columns:
         col_lsv = dfv[col].tolist()
         lsv.append(col_lsv)
-    print(lsv)
+
     for i in lsv:
         for name in i:
-            if name == value:
+            if name == currency:
                 ysv = i
     for i in dfv.index:
         xsv.append(i)
@@ -63,15 +63,15 @@ def animate(i):
     lsm = []
     ysm = []
     xsm = []
-    dfm = pandas.read_excel(r"C:\Users\User\Desktop\marketcap.xlsx",engine='openpyxl')
+
     dfm = dfm.T
     for col in dfm.columns:
         col_lsm = dfm[col].tolist()
         lsm.append(col_lsm)
-    print(lsm)
+
     for i in lsm:
         for name in i:
-            if name == value:
+            if name == currency:
                 ysm = i
     for i in dfm.index:
         xsm.append(i)
@@ -83,7 +83,7 @@ def animate(i):
     ax3.set_title("Market cap of " + cryptonameforgraph, fontsize=12)
 
 
-ani = animation.FuncAnimation(fig, animate, interval=1000)
+ani = animation.FuncAnimation(fig, animate, interval=500)
 plt.tight_layout()
 plt.show()
 
