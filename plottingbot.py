@@ -3,7 +3,7 @@ import matplotlib.animation as animation
 from matplotlib import style
 import pandas
 from bot import createxl, getdata
-currency = "1INCH_USDT"
+currency = "1INCH_BTC"
 #currency = str(input("Please enter what cryptocurrency you would like to monitor today: "))
 
 style.use("fivethirtyeight")
